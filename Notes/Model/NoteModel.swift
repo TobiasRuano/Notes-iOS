@@ -7,6 +7,9 @@
 
 import Foundation
 
-class Note {
-    
+struct Note: Codable {
+    var title: String?
+    let date: String?
+    var body: String?
+    let userEmail: String?
 }
