@@ -15,8 +15,8 @@ class NOTabBarController: UITabBarController {
         viewControllers = [createHomeVC()]
     }
     
-    private func createHomeVC() -> UINavigationController {
-        let homeVC = ViewController()
+    private func createHomeVC() -> UIViewController {
+        let homeVC = HomeViewController()
         homeVC.title = "Notes"
         let noteImage = UIImage(systemName: "note.text")
         homeVC.tabBarItem = UITabBarItem(title: "Note", image: noteImage, tag: 0)

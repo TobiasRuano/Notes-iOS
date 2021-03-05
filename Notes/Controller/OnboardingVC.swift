@@ -12,6 +12,8 @@ class OnboardingVC: UIViewController {
     private var logInCardView: NOLogInCardView!
     private var registerCardView: NORegisterCardView!
     
+    private var networkManager = NetworkManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -45,7 +47,27 @@ class OnboardingVC: UIViewController {
     @objc func logIn(_ sender: Any) {
         let value = logInCardView.getTextFieldsStatus()
         print(value)
-        #warning("Handle Log In.")
+        
+        if value {
+            let mail = logInCardView.getMail()
+            let pass = logInCardView.getPassword()
+            
+            networkManager.logIn(mail: mail, password: pass) { (result) in
+                switch result {
+                case .success((let token, let user)):
+                    DispatchQueue.main.sync {
+                        let vc = HomeViewController()
+                        vc.modalPresentationStyle = .fullScreen
+                        vc.setUser(userToSet: user)
+                        vc.setToken(tokenToSet: token)
+                        self.present(vc, animated: true)
+                    }
+                case .failure(let error):
+                    print(error)
+                    #warning("Implement an alert with the corresponding error.")
+                }
+            }
+        }
     }
     
     @objc func register(_ sender: Any) {

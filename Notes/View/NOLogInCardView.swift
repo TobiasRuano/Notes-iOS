@@ -47,6 +47,8 @@ class NOLogInCardView: UIView {
         mailTextField = UITextField()
         mailTextField.translatesAutoresizingMaskIntoConstraints = false
         mailTextField.placeholder = "Mail"
+        mailTextField.autocapitalizationType = UITextAutocapitalizationType.none
+        mailTextField.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(mailTextField)
         NSLayoutConstraint.activate([
             mailTextField.topAnchor.constraint(equalTo: titleText.bottomAnchor, constant: CGFloat(spacingConstraint)),
@@ -58,6 +60,8 @@ class NOLogInCardView: UIView {
         passwordTextField = UITextField()
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.placeholder = "Password"
+        passwordTextField.autocapitalizationType = UITextAutocapitalizationType.none
+        passwordTextField.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: mailTextField.bottomAnchor, constant: 10),
@@ -90,5 +94,13 @@ class NOLogInCardView: UIView {
     func getTextFieldsStatus() -> Bool {
         #warning("Better implementation of the function")
         return mailTextField.hasText && passwordTextField.hasText
+    }
+    
+    func getMail() -> String {
+        return mailTextField.text!
+    }
+    
+    func getPassword() -> String {
+        return passwordTextField.text!
     }
 }
