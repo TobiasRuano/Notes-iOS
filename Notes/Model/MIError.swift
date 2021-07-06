@@ -9,6 +9,7 @@
 import Foundation
 
 enum MIError: String, Error {
+    case invalidRequestBody = "The request body expected some parameter that were not given."
     case invalidUrl = "This url is not valid."
     case unableToComplete = "Unable to complete your request. Plese check your internet connection."
     case invalidResponse = "Invalid response from the server. Please try again."

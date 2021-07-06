@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowsScene.coordinateSpace.bounds)
         window?.windowScene = windowsScene
         
-        if let _ = UserDefaults.standard.value(forKey: "LoggedInStatus") {
+        if let token = UserDefaults.standard.value(forKey: "token") {
+            NetworkManager.shared.requestToken = Token(token: token as! String)
             window?.rootViewController = NOTabBarController()
         } else {
             window?.rootViewController = OnboardingVC()

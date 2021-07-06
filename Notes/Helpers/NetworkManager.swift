@@ -8,33 +8,31 @@
 
 import UIKit
 
-enum DataType {
-    case Token
-    case User
-    case Note
-}
-
 class NetworkManager {
     
     public static let shared = NetworkManager()
-    let baseURL = "https://notes-app-ios.herokuapp.com/api/"
-    var requestToken = ""
+    let baseURL = "http://localhost:3000/"
+    var requestToken = Token()
     
     let cache = NSCache<NSString, UIImage>()
     
-    func logIn(mail: String, password: String, completed: @escaping (Result<(Token, User), MIError>) -> Void) {
-        let endpoint = "\(baseURL)users/login/"
-        let json = ["email": mail, "password": password]
+    func logIn(mail: String, password: String, completed: @escaping (Result<User, MIError>) -> Void) {
+        let endpoint = "\(baseURL)login/"
+        let json = ["mail": mail, "password": password]
         request(endpoint, nil, json) { (result) in
             switch result {
             case .success(let data):
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
-                    let token = try decoder.decode(Token.self, from: data, keyPath: "loginUser")
+                    let token = try decoder.decode(Token.self, from: data, keyPath: "data")
                     do {
-                        let user = try decoder.decode(User.self, from: data, keyPath: "loginUser.user")
-                        completed(.success((token, user)))
+                        let user = try decoder.decode(User.self, from: data, keyPath: "data.User")
+                        #warning("Fix this!")
+                        self.requestToken = token
+                        let userDefaults = UserDefaults.standard
+                        userDefaults.set(self.requestToken.token, forKey: "token")
+                        completed(.success(user))
                     } catch {
                         completed(.failure(.unableToParseData))
                     }
@@ -47,18 +45,35 @@ class NetworkManager {
         }
     }
     
-    func getNotes(user: User, token: Token, completed: @escaping (Result<[Note], MIError>) -> Void) {
-        let endpoint = "\(baseURL)notes/getnotes"
-        #warning("Fix force unwraping")
-        let json = ["userEmail": user.email!]
-        request(endpoint, token.token, json) { (result) in
+    func registerUser(user: User, password: String, completed: @escaping (Result<User, MIError>) -> Void) {
+        let endpoint = "\(baseURL)user/sign-up"
+        let json = ["name": user.name!, "surname": user.surname!, "mail": user.mail!, "password": password]
+        request(endpoint, nil, json) { (result) in
+            switch result {
+            case .success(let data):
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    let user = try decoder.decode(User.self, from: data, keyPath: "User")
+                    completed(.success(user))
+                } catch {
+                    completed(.failure(.unableToParseData))
+                }
+            case .failure(let error):
+                completed(.failure(error))
+            }
+        }
+    }
+    
+    func getNotes(completed: @escaping (Result<[Note], MIError>) -> Void) {
+        let endpoint = "\(baseURL)user/getnotes"
+        request(endpoint, requestToken.token, nil) { (result) in
             switch result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    #warning("Correct this!")
-                    let notes = try decoder.decode([Note].self, from: data, keyPath: "data.docs")
+                    let notes = try decoder.decode([Note].self, from: data, keyPath: "data")
                     completed(.success(notes))
                 } catch {
                     completed(.failure(.unableToParseData))
@@ -69,21 +84,23 @@ class NetworkManager {
         }
     }
     
-    private func request(_ endpoint: String, _ token: String?, _ json: [String: String], completed: @escaping (Result<Data, MIError>) -> Void) {
+    private func request(_ endpoint: String, _ token: String?, _ json: [String: String]?, completed: @escaping (Result<Data, MIError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))
             return
         }
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
         let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if let token = token {
-            request.setValue(token, forHTTPHeaderField: "x-access-token")
+            request.setValue( "Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         request.httpMethod = "POST"
-        request.httpBody = jsonData
+        
+        if let json = json {
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+        }
         
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
@@ -92,7 +109,7 @@ class NetworkManager {
                 return
             }
             
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            guard let response = response as? HTTPURLResponse, response.statusCode < 300 else {
                 completed(.failure(.invalidResponse))
                 return
             }
@@ -111,7 +128,9 @@ class NetworkManager {
 extension JSONDecoder {
     func decode<T: Decodable>(_ type: T.Type, from data: Data, keyPath: String) throws -> T {
         let toplevel = try JSONSerialization.jsonObject(with: data)
+        print(toplevel)
         if let nestedJson = (toplevel as AnyObject).value(forKeyPath: keyPath) {
+            print(nestedJson)
             let nestedJsonData = try JSONSerialization.data(withJSONObject: nestedJson)
             return try decode(type, from: nestedJsonData)
         } else {

@@ -46,7 +46,6 @@ class OnboardingVC: UIViewController {
     
     @objc func logIn(_ sender: Any) {
         let value = logInCardView.getTextFieldsStatus()
-        print(value)
         
         if value {
             let mail = logInCardView.getMail()
@@ -54,12 +53,11 @@ class OnboardingVC: UIViewController {
             
             networkManager.logIn(mail: mail, password: pass) { (result) in
                 switch result {
-                case .success((let token, let user)):
+                case .success(let user):
                     DispatchQueue.main.sync {
                         let vc = HomeViewController()
                         vc.modalPresentationStyle = .fullScreen
                         vc.setUser(userToSet: user)
-                        vc.setToken(tokenToSet: token)
                         self.present(vc, animated: true)
                     }
                 case .failure(let error):
