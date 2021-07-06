@@ -19,7 +19,7 @@ class NetworkManager {
     func logIn(mail: String, password: String, completed: @escaping (Result<User, MIError>) -> Void) {
         let endpoint = "\(baseURL)login/"
         let json = ["mail": mail, "password": password]
-        request(endpoint, nil, json) { (result) in
+        request(endpoint, nil, json, httpMethod: "POST") { (result) in
             switch result {
             case .success(let data):
                 let decoder = JSONDecoder()
@@ -48,7 +48,7 @@ class NetworkManager {
     func registerUser(user: User, password: String, completed: @escaping (Result<User, MIError>) -> Void) {
         let endpoint = "\(baseURL)user/sign-up"
         let json = ["name": user.name!, "surname": user.surname!, "mail": user.mail!, "password": password]
-        request(endpoint, nil, json) { (result) in
+        request(endpoint, nil, json, httpMethod: "POST") { (result) in
             switch result {
             case .success(let data):
                 let decoder = JSONDecoder()
@@ -67,7 +67,7 @@ class NetworkManager {
     
     func getNotes(completed: @escaping (Result<[Note], MIError>) -> Void) {
         let endpoint = "\(baseURL)user/getnotes"
-        request(endpoint, requestToken.token, nil) { (result) in
+        request(endpoint, requestToken.token, nil, httpMethod: "POST") { (result) in
             switch result {
             case .success(let data):
                 do {
@@ -84,7 +84,7 @@ class NetworkManager {
         }
     }
     
-    private func request(_ endpoint: String, _ token: String?, _ json: [String: String]?, completed: @escaping (Result<Data, MIError>) -> Void) {
+    private func request(_ endpoint: String, _ token: String?, _ json: [String: String]?, httpMethod: String, completed: @escaping (Result<Data, MIError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))
             return
@@ -95,7 +95,7 @@ class NetworkManager {
         if let token = token {
             request.setValue( "Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
-        request.httpMethod = "POST"
+        request.httpMethod = httpMethod
         
         if let json = json {
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
