@@ -107,6 +107,22 @@ class NetworkManager {
         }
     }
     
+    func deleteNote(note: Note, completed: @escaping (Result<String, MIError>) -> Void) {
+        let endpoint = "\(baseURL)user/"
+        var json = [String:String]()
+        if let id = note.id {
+            json["id"] = String(id)
+        }
+        request(endpoint, requestToken.token, json, httpMethod: "DELETE") { (result) in
+            switch result {
+            case .success(_):
+                completed(.success("success"))
+            case .failure(let error):
+                completed(.failure(error))
+            }
+        }
+    }
+    
     private func request(_ endpoint: String, _ token: String?, _ json: [String: String]?, httpMethod: String, completed: @escaping (Result<Data, MIError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))

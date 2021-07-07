@@ -87,4 +87,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         navigationController?.pushViewController(noteVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            deleteNote(index: indexPath)
+        default:
+            break
+        }
+    }
+    
+    private func deleteNote(index: IndexPath) {
+        let note = userNotes[index.row]
+        networkManager.deleteNote(note: note) { (result) in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.userNotes.remove(at: index.row)
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
 }
