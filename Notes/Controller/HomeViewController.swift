@@ -13,15 +13,17 @@ class HomeViewController: UIViewController {
     private var userNotes: [Note] = []
     private var networkManager = NetworkManager.shared
     private var tableView: UITableView!
+    private var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
+        configureRefreshControl()
         getNotesFromAPI()
     }
     
-    func configureViewController() {
+    private func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Notes"
@@ -29,15 +31,25 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = newNote
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         view.addSubview(tableView)
         tableView.rowHeight = 80
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.reuseID)
+    }
+    
+    private func configureRefreshControl(){
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+      getNotesFromAPI()
     }
     
     @objc func newNote() {
@@ -57,6 +69,7 @@ class HomeViewController: UIViewController {
                 self.userNotes = notes
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
                 }
             case .failure(let error):
                 print(error)
