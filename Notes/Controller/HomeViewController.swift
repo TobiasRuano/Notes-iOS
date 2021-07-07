@@ -12,7 +12,7 @@ class HomeViewController: UIViewController {
     private var user: User!
     private var userNotes: [Note] = []
     private var networkManager = NetworkManager.shared
-    private var tableView = UITableView()
+    private var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +30,8 @@ class HomeViewController: UIViewController {
     }
     
     func configureTableView() {
+        tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         view.addSubview(tableView)
-        tableView.frame = view.bounds
         tableView.rowHeight = 80
         tableView.tableFooterView = UIView()
         tableView.delegate = self

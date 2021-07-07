@@ -47,6 +47,7 @@ class NONoteView: UIView {
         ])
         
         titleTextField.placeholder = "Title..."
+        titleTextField.font = UIFont.systemFont(ofSize: 30, weight: .semibold)
         
         NSLayoutConstraint.activate([
             titleTextField.topAnchor.constraint(equalTo: updatedAtLabel.bottomAnchor, constant: 5),
@@ -56,6 +57,7 @@ class NONoteView: UIView {
         ])
         
         contentTextView.backgroundColor = UIColor.systemBackground
+        contentTextView.font = UIFont.systemFont(ofSize: 20)
         
         NSLayoutConstraint.activate([
             contentTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 5),
