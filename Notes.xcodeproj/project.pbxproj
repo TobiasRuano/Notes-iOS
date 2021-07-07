@@ -27,6 +27,7 @@
 		8B8CEA3F25E1E7CB00C64421 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CEA3E25E1E7CB00C64421 /* NoteModel.swift */; };
 		8B8CEA4425E1E7ED00C64421 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CEA4325E1E7ED00C64421 /* UserModel.swift */; };
 		8BB4F7A62694EFD20085DDBB /* NONoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F7A52694EFD20085DDBB /* NONoteView.swift */; };
+		8BB4F7A926952A1C0085DDBB /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F7A826952A1C0085DDBB /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		8B8CEA3E25E1E7CB00C64421 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		8B8CEA4325E1E7ED00C64421 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		8BB4F7A52694EFD20085DDBB /* NONoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NONoteView.swift; sourceTree = "<group>"; };
+		8BB4F7A826952A1C0085DDBB /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				8B8CEA3C25E1E7A700C64421 /* View */,
 				8B8CEA3B25E1E7A200C64421 /* Model */,
 				8B1EFB3725F0636F00E2343C /* Helpers */,
+				8BB4F7A7269529FC0085DDBB /* Extensions */,
 				8B8CEA2125E1E50F00C64421 /* AppDelegate.swift */,
 				8B8CEA2325E1E50F00C64421 /* SceneDelegate.swift */,
 				8B8CEA2A25E1E51300C64421 /* Assets.xcassets */,
@@ -139,6 +142,14 @@
 				8B65F84B2694C47700FD988F /* NoteViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		8BB4F7A7269529FC0085DDBB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8BB4F7A826952A1C0085DDBB /* DateExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +226,7 @@
 				8B8CEA3925E1E63B00C64421 /* NOTabBarController.swift in Sources */,
 				8B69BE5F25F1282E00E19DC7 /* NotesCell.swift in Sources */,
 				8B1EFB3225F0607800E2343C /* NORegistrationFormView.swift in Sources */,
+				8BB4F7A926952A1C0085DDBB /* DateExtension.swift in Sources */,
 				8BB4F7A62694EFD20085DDBB /* NONoteView.swift in Sources */,
 				8B1EFB3525F0636900E2343C /* NetworkManager.swift in Sources */,
 				8B34739425E34267005ABF17 /* NOButton.swift in Sources */,

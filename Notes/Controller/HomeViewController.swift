@@ -76,8 +76,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: NotesCell.reuseID) as! NotesCell
         cell.titleLabel.text = userNotes[indexPath.row].title
         cell.contentLabel.text = userNotes[indexPath.row].content
-        #warning("Correct date format")
-        cell.dateLabel.text = userNotes[indexPath.row].getDateFormatted()
+        cell.dateLabel.text = Date().getDateFormatted(stringDate: userNotes[indexPath.row].updatedAt!)
         return cell
     }
     

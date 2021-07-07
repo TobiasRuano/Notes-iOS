@@ -20,7 +20,7 @@ class NoteViewController: UIViewController {
         if note != nil {
             contentView.titleTextField.text = note.title
             contentView.contentTextView.text = note.content
-            contentView.updatedAtLabel.text = note.getDateFormatted()
+            contentView.updatedAtLabel.text = Date().getDateFormatted(stringDate: note.updatedAt!)
         }
     }
     
