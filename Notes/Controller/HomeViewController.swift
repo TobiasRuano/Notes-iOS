@@ -13,14 +13,20 @@ class HomeViewController: UIViewController {
     private var userNotes: [Note] = []
     private var networkManager = NetworkManager.shared
     private var tableView = UITableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Notes"
+        configureViewController()
         configureTableView()
         getNotesFromAPI()
+    }
+    
+    func configureViewController() {
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = "Notes"
+        let newNote = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newNote))
+        navigationItem.rightBarButtonItem = newNote
     }
     
     func configureTableView() {
@@ -30,8 +36,13 @@ class HomeViewController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-                
+        
         tableView.register(NotesCell.self, forCellReuseIdentifier: NotesCell.reuseID)
+    }
+    
+    @objc func newNote() {
+        let noteVC = NoteViewController()
+        navigationController?.pushViewController(noteVC, animated: true)
     }
     
     func setUser(userToSet: User) {
@@ -44,7 +55,6 @@ class HomeViewController: UIViewController {
             case .success(let notes):
                 #warning("sort array by date")
                 self.userNotes = notes
-                print(notes)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -53,7 +63,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
-
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
@@ -67,8 +77,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = userNotes[indexPath.row].title
         cell.contentLabel.text = userNotes[indexPath.row].content
         #warning("Correct date format")
-        cell.dateLabel.text = userNotes[indexPath.row].createdAt
+        cell.dateLabel.text = userNotes[indexPath.row].getDateFormatted()
         return cell
     }
-    	
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let noteVC = NoteViewController()
+        noteVC.note = userNotes[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        navigationController?.pushViewController(noteVC, animated: true)
+    }
 }

@@ -84,6 +84,29 @@ class NetworkManager {
         }
     }
     
+    func saveNote(note: Note, completed: @escaping (Result<Note, MIError>) -> Void) {
+        let endpoint = "\(baseURL)user/"
+        var json = ["title": note.title!, "content": note.content!]
+        if let id = note.id {
+            json["id"] = String(id)
+        }
+        request(endpoint, requestToken.token, json, httpMethod: "POST") { (result) in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let note = try decoder.decode(Note.self, from: data, keyPath: "Note")
+                    completed(.success(note))
+                } catch {
+                    completed(.failure(.unableToParseData))
+                }
+            case .failure(let error):
+                completed(.failure(error))
+            }
+        }
+    }
+    
     private func request(_ endpoint: String, _ token: String?, _ json: [String: String]?, httpMethod: String, completed: @escaping (Result<Data, MIError>) -> Void) {
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))
@@ -128,9 +151,7 @@ class NetworkManager {
 extension JSONDecoder {
     func decode<T: Decodable>(_ type: T.Type, from data: Data, keyPath: String) throws -> T {
         let toplevel = try JSONSerialization.jsonObject(with: data)
-        print(toplevel)
         if let nestedJson = (toplevel as AnyObject).value(forKeyPath: keyPath) {
-            print(nestedJson)
             let nestedJsonData = try JSONSerialization.data(withJSONObject: nestedJson)
             return try decode(type, from: nestedJsonData)
         } else {
