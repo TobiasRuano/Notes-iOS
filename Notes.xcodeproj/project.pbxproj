@@ -12,7 +12,7 @@
 		8B1EFB2F25F047B900E2343C /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1EFB2E25F047B900E2343C /* RegisterVC.swift */; };
 		8B1EFB3225F0607800E2343C /* NORegistrationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1EFB3125F0607800E2343C /* NORegistrationFormView.swift */; };
 		8B1EFB3525F0636900E2343C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1EFB3425F0636900E2343C /* NetworkManager.swift */; };
-		8B1EFB3A25F064A500E2343C /* MIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1EFB3925F064A500E2343C /* MIError.swift */; };
+		8B1EFB3A25F064A500E2343C /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1EFB3925F064A500E2343C /* Errors.swift */; };
 		8B34739125E33928005ABF17 /* NOLogInCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34739025E33928005ABF17 /* NOLogInCardView.swift */; };
 		8B34739425E34267005ABF17 /* NOButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34739325E34267005ABF17 /* NOButton.swift */; };
 		8B5AC8BC25E1EBC700713F27 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5AC8BB25E1EBC700713F27 /* OnboardingVC.swift */; };
@@ -26,8 +26,15 @@
 		8B8CEA3925E1E63B00C64421 /* NOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CEA3825E1E63B00C64421 /* NOTabBarController.swift */; };
 		8B8CEA3F25E1E7CB00C64421 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CEA3E25E1E7CB00C64421 /* NoteModel.swift */; };
 		8B8CEA4425E1E7ED00C64421 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8CEA4325E1E7ED00C64421 /* UserModel.swift */; };
+		8B9CB71326A60FC500CA7DBE /* BiometricAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9CB71226A60FC500CA7DBE /* BiometricAuthManager.swift */; };
 		8BB4F7A62694EFD20085DDBB /* NONoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F7A52694EFD20085DDBB /* NONoteView.swift */; };
-		8BB4F7A926952A1C0085DDBB /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F7A826952A1C0085DDBB /* DateExtension.swift */; };
+		8BB4F7A926952A1C0085DDBB /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F7A826952A1C0085DDBB /* Date + Extension.swift */; };
+		8BB4F8112695F1100085DDBB /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F8102695F1100085DDBB /* UserViewController.swift */; };
+		8BB4F8132696023F0085DDBB /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F8122696023F0085DDBB /* String + Extension.swift */; };
+		8BB4F815269609AE0085DDBB /* NOUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F814269609AE0085DDBB /* NOUserView.swift */; };
+		8BB4F818269660C40085DDBB /* UIView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F817269660C40085DDBB /* UIView + Extensions.swift */; };
+		8BB4F81B26967B0F0085DDBB /* NOTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F81A26967B0F0085DDBB /* NOTextField.swift */; };
+		8BB4F81D269685F90085DDBB /* ViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4F81C269685F90085DDBB /* ViewController + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +43,7 @@
 		8B1EFB2E25F047B900E2343C /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		8B1EFB3125F0607800E2343C /* NORegistrationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NORegistrationFormView.swift; sourceTree = "<group>"; };
 		8B1EFB3425F0636900E2343C /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		8B1EFB3925F064A500E2343C /* MIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIError.swift; sourceTree = "<group>"; };
+		8B1EFB3925F064A500E2343C /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		8B34739025E33928005ABF17 /* NOLogInCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOLogInCardView.swift; sourceTree = "<group>"; };
 		8B34739325E34267005ABF17 /* NOButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOButton.swift; sourceTree = "<group>"; };
 		8B5AC8BB25E1EBC700713F27 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
@@ -52,8 +59,15 @@
 		8B8CEA3825E1E63B00C64421 /* NOTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOTabBarController.swift; sourceTree = "<group>"; };
 		8B8CEA3E25E1E7CB00C64421 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		8B8CEA4325E1E7ED00C64421 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		8B9CB71226A60FC500CA7DBE /* BiometricAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthManager.swift; sourceTree = "<group>"; };
 		8BB4F7A52694EFD20085DDBB /* NONoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NONoteView.swift; sourceTree = "<group>"; };
-		8BB4F7A826952A1C0085DDBB /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		8BB4F7A826952A1C0085DDBB /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
+		8BB4F8102695F1100085DDBB /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		8BB4F8122696023F0085DDBB /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		8BB4F814269609AE0085DDBB /* NOUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOUserView.swift; sourceTree = "<group>"; };
+		8BB4F817269660C40085DDBB /* UIView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extensions.swift"; sourceTree = "<group>"; };
+		8BB4F81A26967B0F0085DDBB /* NOTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NOTextField.swift; sourceTree = "<group>"; };
+		8BB4F81C269685F90085DDBB /* ViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				8B1EFB3425F0636900E2343C /* NetworkManager.swift */,
+				8B9CB71226A60FC500CA7DBE /* BiometricAuthManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -111,7 +126,7 @@
 		8B8CEA3B25E1E7A200C64421 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8B1EFB3925F064A500E2343C /* MIError.swift */,
+				8B1EFB3925F064A500E2343C /* Errors.swift */,
 				8B0564D825F06FB600EDCFBD /* Token.swift */,
 				8B8CEA3E25E1E7CB00C64421 /* NoteModel.swift */,
 				8B8CEA4325E1E7ED00C64421 /* UserModel.swift */,
@@ -129,6 +144,8 @@
 				8B1EFB3125F0607800E2343C /* NORegistrationFormView.swift */,
 				8B69BE5E25F1282E00E19DC7 /* NotesCell.swift */,
 				8BB4F7A52694EFD20085DDBB /* NONoteView.swift */,
+				8BB4F814269609AE0085DDBB /* NOUserView.swift */,
+				8BB4F81A26967B0F0085DDBB /* NOTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -140,6 +157,7 @@
 				8B5AC8BB25E1EBC700713F27 /* OnboardingVC.swift */,
 				8B1EFB2E25F047B900E2343C /* RegisterVC.swift */,
 				8B65F84B2694C47700FD988F /* NoteViewController.swift */,
+				8BB4F8102695F1100085DDBB /* UserViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -147,7 +165,10 @@
 		8BB4F7A7269529FC0085DDBB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8BB4F7A826952A1C0085DDBB /* DateExtension.swift */,
+				8BB4F7A826952A1C0085DDBB /* Date + Extension.swift */,
+				8BB4F8122696023F0085DDBB /* String + Extension.swift */,
+				8BB4F817269660C40085DDBB /* UIView + Extensions.swift */,
+				8BB4F81C269685F90085DDBB /* ViewController + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -221,15 +242,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B1EFB3A25F064A500E2343C /* MIError.swift in Sources */,
+				8B1EFB3A25F064A500E2343C /* Errors.swift in Sources */,
+				8BB4F8112695F1100085DDBB /* UserViewController.swift in Sources */,
+				8BB4F81B26967B0F0085DDBB /* NOTextField.swift in Sources */,
 				8B8CEA3F25E1E7CB00C64421 /* NoteModel.swift in Sources */,
+				8B9CB71326A60FC500CA7DBE /* BiometricAuthManager.swift in Sources */,
 				8B8CEA3925E1E63B00C64421 /* NOTabBarController.swift in Sources */,
+				8BB4F81D269685F90085DDBB /* ViewController + Extension.swift in Sources */,
 				8B69BE5F25F1282E00E19DC7 /* NotesCell.swift in Sources */,
 				8B1EFB3225F0607800E2343C /* NORegistrationFormView.swift in Sources */,
-				8BB4F7A926952A1C0085DDBB /* DateExtension.swift in Sources */,
+				8BB4F7A926952A1C0085DDBB /* Date + Extension.swift in Sources */,
 				8BB4F7A62694EFD20085DDBB /* NONoteView.swift in Sources */,
+				8BB4F8132696023F0085DDBB /* String + Extension.swift in Sources */,
 				8B1EFB3525F0636900E2343C /* NetworkManager.swift in Sources */,
+				8BB4F815269609AE0085DDBB /* NOUserView.swift in Sources */,
 				8B34739425E34267005ABF17 /* NOButton.swift in Sources */,
+				8BB4F818269660C40085DDBB /* UIView + Extensions.swift in Sources */,
 				8B0564D925F06FB700EDCFBD /* Token.swift in Sources */,
 				8B8CEA2625E1E50F00C64421 /* HomeViewController.swift in Sources */,
 				8B65F84C2694C47700FD988F /* NoteViewController.swift in Sources */,

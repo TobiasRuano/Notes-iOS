@@ -23,11 +23,12 @@ class RegisterVC: UIViewController {
     
     private func style() {
         registrationFormView = RegistrationFormView()
+        registrationFormView.dropShadow()
         view.addSubview(registrationFormView)
         registrationFormView.registerButton.addTarget(self, action: #selector(register), for: .touchUpInside)
         let logInHeight = registrationFormView.getSize()
         NSLayoutConstraint.activate([
-            registrationFormView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            registrationFormView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             registrationFormView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             registrationFormView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             registrationFormView.heightAnchor.constraint(equalToConstant: CGFloat(logInHeight))
@@ -44,8 +45,9 @@ class RegisterVC: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                 }
             case .failure(let error):
-                #warning("handle error.")
-                print(error)
+                DispatchQueue.main.async {
+                    self.alert(title: "Error!", message: "There's been an error while trying to create the account.  \(error)")
+                }
             }
         }
     }

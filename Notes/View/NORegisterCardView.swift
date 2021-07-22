@@ -26,11 +26,12 @@ class NORegisterCardView: UIView {
     private func setViewStyle() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .secondarySystemBackground
+        self.layer.cornerRadius = 10
     }
     
     private func configure() {
         titleText = UILabel()
-        titleText.text = "Register"
+        titleText.text = "No Account?"
         titleText.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         titleText.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleText)
@@ -42,7 +43,8 @@ class NORegisterCardView: UIView {
             titleText.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        registerButton = NOButton(text: "Register", color: .systemRed, state: .normal)
+        registerButton = NOButton(text: "Sign up", color: .systemRed, state: .normal)
+        registerButton.dropShadow()
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(registerButton)
         NSLayoutConstraint.activate([

@@ -36,7 +36,6 @@ class NONoteView: UIView {
         contentTextView.translatesAutoresizingMaskIntoConstraints = false
         
         updatedAtLabel.textColor = UIColor.secondaryLabel
-        updatedAtLabel.text = "4 July 2021, 22:30" // TODO: make it variable
         updatedAtLabel.textAlignment = .center
         
         NSLayoutConstraint.activate([

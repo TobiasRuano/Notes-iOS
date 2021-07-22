@@ -22,11 +22,12 @@ class OnboardingVC: UIViewController {
     
     private func style() {
         logInCardView = NOLogInCardView()
+        logInCardView.dropShadow()
         view.addSubview(logInCardView)
         logInCardView.logInButton.addTarget(self, action: #selector(logIn), for: .touchUpInside)
         let logInHeight = logInCardView.getSize()
         NSLayoutConstraint.activate([
-            logInCardView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            logInCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             logInCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             logInCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             logInCardView.heightAnchor.constraint(equalToConstant: CGFloat(logInHeight))
@@ -34,6 +35,7 @@ class OnboardingVC: UIViewController {
         
         registerCardView = NORegisterCardView()
         view.addSubview(registerCardView)
+        registerCardView.dropShadow()
         registerCardView.registerButton.addTarget(self, action: #selector(register), for: .touchUpInside)
         let registerHeight = registerCardView.getSize()
         NSLayoutConstraint.activate([
@@ -45,26 +47,44 @@ class OnboardingVC: UIViewController {
     }
     
     @objc func logIn(_ sender: Any) {
-        let value = logInCardView.getTextFieldsStatus()
-        
-        if value {
+        if getTextFieldsStatus() {
             let mail = logInCardView.getMail()
             let pass = logInCardView.getPassword()
             
-            networkManager.logIn(mail: mail, password: pass) { (result) in
+            networkManager.logIn(mail: mail!, password: pass!) { (result) in
                 switch result {
                 case .success(let user):
                     DispatchQueue.main.sync {
-                        let vc = HomeViewController()
+                        let vc = NOTabBarController()
                         vc.modalPresentationStyle = .fullScreen
-                        vc.setUser(userToSet: user)
                         self.present(vc, animated: true)
                     }
                 case .failure(let error):
-                    print(error)
-                    #warning("Implement an alert with the corresponding error.")
+                    DispatchQueue.main.async {
+                        self.alert(title: "Error!", message: "There's been an error while trying to Login.  \(error)")
+                    }
                 }
             }
+        }
+    }
+    
+    private func getTextFieldsStatus() -> Bool {
+        let mail = logInCardView.getMail()
+        let password = logInCardView.getPassword()
+        
+        switch (mail, password) {
+        case let (mail?, password?):
+            print("success")
+            return true
+        case let (mail?, nil):
+            print("No password")
+            return false
+        case let (nil, password?):
+            print("No email")
+            return false
+        case (nil, nil):
+            print("Mail and password missing")
+            return false
         }
     }
     

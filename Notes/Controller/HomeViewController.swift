@@ -11,24 +11,51 @@ class HomeViewController: UIViewController {
     
     private var user: User!
     private var userNotes: [Note] = []
-    private var networkManager = NetworkManager.shared
+    private let networkManager = NetworkManager.shared
+    private let biometricAuthManager = BiometricAuthManager.shared
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
-        configureTableView()
-        configureRefreshControl()
-        getNotesFromAPI()
+        view.backgroundColor = .systemBackground
+        checkBioAvailability()
+        
+        let noteVC = NoteViewController()
+        noteVC.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func checkBioAvailability() {
+        biometricAuthManager.canEvaluate { success, type, error in
+            if let error = error {
+                print(error)
+            } else {
+                authenticateUser()
+            }
+        }
+    }
+    
+    private func authenticateUser() {
+        biometricAuthManager.evaluate { [weak self] (success, error) in
+            guard success else { return }
+            
+            print("auth succeded!")
+            self?.configureViewController()
+        }
     }
     
     private func configureViewController() {
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.prefersLargeTitles = true
         title = "Notes"
         let newNote = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newNote))
         navigationItem.rightBarButtonItem = newNote
+        
+        configureTableView()
+        configureRefreshControl()
+        getNotesFromAPI()
     }
     
     private func configureTableView() {
@@ -69,10 +96,12 @@ class HomeViewController: UIViewController {
                 self.userNotes = notes
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    self.refreshControl.endRefreshing()
                 }
             case .failure(let error):
                 print(error)
+            }
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -96,6 +125,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let noteVC = NoteViewController()
         noteVC.note = userNotes[indexPath.row]
+        noteVC.delegate = self
         tableView.deselectRow(at: indexPath, animated: true)
         navigationController?.pushViewController(noteVC, animated: true)
     }
@@ -122,6 +152,28 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 print(error)
             }
         }
+    }
+    
+}
+
+extension HomeViewController: NoteDelegate {
+    
+    func getData(_ note: Note) {
+        guard let index = findIndex(noteId: note.id) else {
+            return
+        }
+        userNotes.remove(at: index)
+        userNotes.insert(note, at: index)
+        tableView.reloadData()
+    }
+    
+    private func findIndex(noteId: Int?) -> Int? {
+        for index in 0..<userNotes.count {
+            if userNotes[index].id == noteId {
+                return index
+            }
+        }
+        return nil
     }
     
 }

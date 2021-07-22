@@ -10,9 +10,10 @@ import UIKit
 class NOLogInCardView: UIView {
     
     private var titleText: UILabel!
-    private var mailTextField: UITextField!
-    private var passwordTextField: UITextField!
+    private var mailTextField: NOTextField!
+    private var passwordTextField: NOTextField!
     var logInButton: NOButton!
+    
     private var spacingConstraint = 20
     
     override init(frame: CGRect) {
@@ -28,6 +29,7 @@ class NOLogInCardView: UIView {
     private func setViewStyle() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .secondarySystemBackground
+        self.layer.cornerRadius = 10
     }
     
     private func configure() {
@@ -44,11 +46,7 @@ class NOLogInCardView: UIView {
             titleText.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        mailTextField = UITextField()
-        mailTextField.translatesAutoresizingMaskIntoConstraints = false
-        mailTextField.placeholder = "Mail"
-        mailTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        mailTextField.autocorrectionType = UITextAutocorrectionType.no
+        mailTextField = NOTextField(text: "Mail", capitalization: .none, isSecure: false)
         self.addSubview(mailTextField)
         NSLayoutConstraint.activate([
             mailTextField.topAnchor.constraint(equalTo: titleText.bottomAnchor, constant: CGFloat(spacingConstraint)),
@@ -57,11 +55,7 @@ class NOLogInCardView: UIView {
             mailTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        passwordTextField = UITextField()
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.placeholder = "Password"
-        passwordTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        passwordTextField.autocorrectionType = UITextAutocorrectionType.no
+        passwordTextField = NOTextField(text: "Password", capitalization: .none, isSecure: true)
         self.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: mailTextField.bottomAnchor, constant: 10),
@@ -92,15 +86,16 @@ class NOLogInCardView: UIView {
     }
     
     func getTextFieldsStatus() -> Bool {
-        #warning("Better implementation of the function")
-        return mailTextField.hasText && passwordTextField.hasText
+        #warning("Use custom tuples + extract to view controller")
+        guard let mail = mailTextField.text, mail.isValidEmail() else { return false }
+        return passwordTextField.hasText
     }
     
-    func getMail() -> String {
-        return mailTextField.text!
+    func getMail() -> String? {
+        return mailTextField.text
     }
     
-    func getPassword() -> String {
-        return passwordTextField.text!
+    func getPassword() -> String? {
+        return passwordTextField.text
     }
 }

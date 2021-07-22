@@ -10,12 +10,13 @@ import UIKit
 class RegistrationFormView: UIView {
     
     private var titleText: UILabel!
-    private var mailTextField: UITextField!
-    private var passwordTextField: UITextField!
-    private var secondPasswordTextfield: UITextField!
-    private var nameTextField: UITextField!
-    private var surnameTextField: UITextField!
+    private var mailTextField: NOTextField!
+    private var passwordTextField: NOTextField!
+    private var secondPasswordTextfield: NOTextField!
+    private var nameTextField: NOTextField!
+    private var surnameTextField: NOTextField!
     var registerButton: NOButton!
+    
     private var spacingConstraint = 20
     
     override init(frame: CGRect) {
@@ -31,11 +32,12 @@ class RegistrationFormView: UIView {
     private func setViewStyle() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .secondarySystemBackground
+        self.layer.cornerRadius = 10
     }
     
     private func configure() {
         titleText = UILabel()
-        titleText.text = "Create new Account"
+        titleText.text = "Create Account"
         titleText.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         titleText.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleText)
@@ -47,10 +49,7 @@ class RegistrationFormView: UIView {
             titleText.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        nameTextField = UITextField()
-        nameTextField.translatesAutoresizingMaskIntoConstraints = false
-        nameTextField.placeholder = "Name"
-        nameTextField.autocorrectionType = UITextAutocorrectionType.no
+        nameTextField = NOTextField(text: "Name", capitalization: .words, isSecure: false)
         self.addSubview(nameTextField)
         NSLayoutConstraint.activate([
             nameTextField.topAnchor.constraint(equalTo: titleText.bottomAnchor, constant: CGFloat(spacingConstraint)),
@@ -59,10 +58,7 @@ class RegistrationFormView: UIView {
             nameTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        surnameTextField = UITextField()
-        surnameTextField.translatesAutoresizingMaskIntoConstraints = false
-        surnameTextField.placeholder = "Surname"
-        surnameTextField.autocorrectionType = UITextAutocorrectionType.no
+        surnameTextField = NOTextField(text: "Surname", capitalization: .words, isSecure: false)
         self.addSubview(surnameTextField)
         NSLayoutConstraint.activate([
             surnameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 10),
@@ -71,11 +67,7 @@ class RegistrationFormView: UIView {
             surnameTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        mailTextField = UITextField()
-        mailTextField.translatesAutoresizingMaskIntoConstraints = false
-        mailTextField.placeholder = "Mail"
-        mailTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        mailTextField.autocorrectionType = UITextAutocorrectionType.no
+        mailTextField = NOTextField(text: "Mail", capitalization: .none, isSecure: false)
         self.addSubview(mailTextField)
         NSLayoutConstraint.activate([
             mailTextField.topAnchor.constraint(equalTo: surnameTextField.bottomAnchor, constant: 10),
@@ -84,11 +76,7 @@ class RegistrationFormView: UIView {
             mailTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        passwordTextField = UITextField()
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.placeholder = "Password"
-        passwordTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        passwordTextField.autocorrectionType = UITextAutocorrectionType.no
+        passwordTextField = NOTextField(text: "Password", capitalization: .none, isSecure: true)
         self.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: mailTextField.bottomAnchor, constant: 10),
@@ -97,11 +85,7 @@ class RegistrationFormView: UIView {
             passwordTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        secondPasswordTextfield = UITextField()
-        secondPasswordTextfield.translatesAutoresizingMaskIntoConstraints = false
-        secondPasswordTextfield.placeholder = "Re-enter Password"
-        secondPasswordTextfield.autocapitalizationType = UITextAutocapitalizationType.none
-        secondPasswordTextfield.autocorrectionType = UITextAutocorrectionType.no
+        secondPasswordTextfield = NOTextField(text: "Re-enter Password", capitalization: .none, isSecure: true)
         self.addSubview(secondPasswordTextfield)
         NSLayoutConstraint.activate([
             secondPasswordTextfield.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 10),
@@ -135,8 +119,9 @@ class RegistrationFormView: UIView {
     }
     
     func getTextFieldsStatus() -> Bool {
-        #warning("Better implementation of the function")
-        return mailTextField.hasText && passwordTextField.hasText && secondPasswordTextfield.hasText
+        #warning("Check minimun characters password")
+        guard let mail = mailTextField.text, mail.isValidEmail() else { return false }
+        return passwordTextField.hasText && secondPasswordTextfield.hasText
     }
     
     func getUser() -> User {

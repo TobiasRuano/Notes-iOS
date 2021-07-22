@@ -11,10 +11,8 @@ import UIKit
 class NetworkManager {
     
     public static let shared = NetworkManager()
-    let baseURL = "http://localhost:3000/"
+    let baseURL = "https://notes-app-ios.herokuapp.com/"
     var requestToken = Token()
-    
-    let cache = NSCache<NSString, UIImage>()
     
     func logIn(mail: String, password: String, completed: @escaping (Result<User, MIError>) -> Void) {
         let endpoint = "\(baseURL)login/"
@@ -40,7 +38,7 @@ class NetworkManager {
                     completed(.failure(.unableToParseData))
                 }
             case .failure(let error):
-                print(error)
+                completed(.failure(error))
             }
         }
     }

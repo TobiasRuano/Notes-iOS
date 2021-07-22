@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol NoteDelegate: AnyObject {
+    func getData( _ note: Note)
+}
+
 class NoteViewController: UIViewController {
     
+    let networkManager = NetworkManager.shared
+    weak var delegate: NoteDelegate?
     var contentView: NONoteView!
     var note: Note!
-    
-    let networkManager = NetworkManager.shared
+    var dataHasBeenUpdated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +26,13 @@ class NoteViewController: UIViewController {
             contentView.titleTextField.text = note.title
             contentView.contentTextView.text = note.content
             contentView.updatedAtLabel.text = Date().getDateFormatted(stringDate: note.updatedAt!)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let delegate = self.delegate, dataHasBeenUpdated {
+            delegate.getData(note)
         }
     }
     
@@ -66,11 +78,14 @@ class NoteViewController: UIViewController {
             switch result {
             case .success(let note):
                 DispatchQueue.main.async {
-                    print(note.title)
+                    self.note = note
+                    self.dataHasBeenUpdated = true
+                    self.alert(message: "Note succesfully saved!")
                 }
             case .failure(let error):
-                print("Problema al guardar")
-                #warning("Poner una alerta de error")
+                DispatchQueue.main.async {
+                    self.alert(title: "Error!", message: "There's been an error while trying to save the note. Please try again.  \(error)")
+                }
             }
         }
     }

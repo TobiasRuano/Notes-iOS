@@ -22,7 +22,7 @@ extension Date {
             return "N/A"
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM yyyy, HH:MM"
+        dateFormatter.dateFormat = "dd MMM yyyy, HH:mm"
         let newDate = dateFormatter.string(from: date)
         return newDate
     }
